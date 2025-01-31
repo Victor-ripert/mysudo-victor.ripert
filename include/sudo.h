@@ -6,15 +6,18 @@
 */
 
 #ifndef SUDO_H
-#define SUDO_H
+    #define SUDO_H
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
+typedef struct args_s {
+    char flag;
+    int present;
+} args_t;
 
-inspect_sudoers(const char *path, char *av);
-get_current_user();
-my_exec(char *arg0, char *arg1);
-sudousers_passwd(const char *password_hash);
+void inspect_sudoers(const char *path, char *av);
+int get_current_user();
+void my_exec(char *arg0, char *arg1);
+int sudousers_passwd(const char *password_hash);
+void exec_function(char **argv, char **envp, int flag_e);
+args_t *args_parsing(char **argv);
 
-#endif /* !SUDO_H */
+#endif /* SUDO_H */

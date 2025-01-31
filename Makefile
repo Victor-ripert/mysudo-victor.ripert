@@ -2,39 +2,40 @@
 ## EPITECH PROJECT, 2025
 ## Makefile
 ## File description:
-## to compile apparently
+## make units tests
 ##
 
-SRC =   src/inspect_sudoers.c \
-        src/get_current_user.c \
-        src/sudoers_passwd.c \
-		src/my_exec.c
+SRC = src/main.c	\
+	src/exec_function.c	\
+	src/args_parsing.c
 
-OBJ =  $(SRC:.c=.o)
+NAME	=	my_sudo
 
-NAME = libhashtable.a
-EXEC = hashtable
+OBJ	=	$(SRC:.c=.o)
 
-CC = gcc
+DEBUG_VALGRIND += -g3 -iquote ./include
 
-CFLAGS = -Wall -Wextra
-
-CPPFLAGS = -I../include -Iinclude
-
-all: $(NAME)
-
-$(NAME): $(OBJ)
-		ar rc $(NAME) $(OBJ)
-
-test : $(OBJ)
-		$(CC) $(OBJ) -o $(EXEC)
-
-clean:
-		rm -f $(OBJ)
-
-fclean: clean
-		rm -f $(NAME) $(EXEC)
-
-re: fclean all
+CPPFLAGS += -g3 -iquote ./include -Wall -Wextra
 
 .PHONY: all clean fclean re
+
+all:		$(NAME)
+
+$(NAME):	$(OBJ)
+	$(CC) -o $(NAME) $(OBJ)
+
+debug: fclean $(OBJ)
+	$(CC) -o $(NAME) $(OBJ) -lm $(DEBUG_VALGRIND)
+
+clean:
+	$(RM) $(OBJ)
+
+fclean:	clean
+	$(RM) $(NAME)
+
+re:	fclean  all
+
+coding_style: fclean
+	clear && ../../coding-style.sh .
+	cat coding-style-reports.log
+	@rm -f coding-style-reports.log
