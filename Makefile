@@ -7,22 +7,31 @@
 
 SRC = src/main.c	\
 	src/exec_function.c	\
-	src/args_parsing.c
+	src/inspect_sudoers.c	\
+	src/is_usr_in_group.c	\
+	src/get_username.c	\
+	src/push_to_list.c	\
+	src/my_strdup_minus.c	\
+	display_list.c	\
+	src/word_array/my_str_to_word_array.c	\
+	src/word_array/my_strlen.c	\
+	src/word_array/my_word_len.c	\
+	src/verif_password.c
 
 NAME	=	my_sudo
 
 OBJ	=	$(SRC:.c=.o)
 
-DEBUG_VALGRIND += -g3 -iquote ./include
+DEBUG_VALGRIND += -g3 -ggdb3 -iquote ./include
 
-CPPFLAGS += -g3 -iquote ./include -Wall -Wextra
+CPPFLAGS += -g3 -ggdb3 -iquote ./include -Wall -Wextra -lc
 
 .PHONY: all clean fclean re
 
 all:		$(NAME)
 
 $(NAME):	$(OBJ)
-	$(CC) -o $(NAME) $(OBJ)
+	$(CC) -o $(NAME) $(OBJ) -lcrypt
 
 debug: fclean $(OBJ)
 	$(CC) -o $(NAME) $(OBJ) -lm $(DEBUG_VALGRIND)
